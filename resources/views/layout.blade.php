@@ -6,13 +6,16 @@
     <title>@yield('title', 'Product Management')</title>
     
     <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
     <!-- Header -->
     <header class="bg-primary text-white py-3 mb-4">
         <div class="container">
-            <h1 class="h3 mb-0">Product Management</h1>
+            <h1 class="h3 mb-0">Product Management Test</h1>
         </div>
     </header>
 
@@ -53,11 +56,12 @@
     <!-- Footer -->
     <footer class="container text-center text-muted py-4 mt-5">
         <small>&copy; Tran Minh Thanh</small>
-        <small>&copy; 2024 Product Management Test</small>
+        <br>
+        <small>&copy; 2024 Product Management</small>
     </footer>
 
     <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Auto-hide alerts after 5 seconds -->
     <script>

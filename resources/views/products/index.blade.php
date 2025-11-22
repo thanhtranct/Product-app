@@ -83,23 +83,21 @@
                     <div class="mt-auto">
                         <div class="d-grid gap-2">
                             <a href="{{ route('products.show', $product) }}" class="btn btn-sm btn-outline-info">
-                                👁️ View Details
+                                <i class="bi bi-eye"></i> View Details
                             </a>
                             <div class="btn-group" role="group">
                                 <a href="{{ route('products.edit', $product) }}" 
                                    class="btn btn-sm btn-warning w-50">
-                                    ✏️ Edit
+                                    <i class="bi bi-pencil"></i> Edit
                                 </a>
-                                <form action="{{ route('products.destroy', $product) }}" 
-                                      method="POST" 
-                                      class="w-50"
-                                      onsubmit="return confirm('⚠️ Are you sure you want to delete {{ $product->name }}?\n\nThis action cannot be undone!');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger w-100">
-                                        🗑️ Delete
-                                    </button>
-                                </form>
+                                <button type="button" 
+                                        class="btn btn-sm btn-danger w-100 delete-button" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteModal" 
+                                        data-action="{{ route('products.destroy', $product) }}"
+                                        data-name="{{ $product->name }}">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -114,6 +112,28 @@
         {{ $products->links() }}
     </div>
 @endif
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="deleteForm" method="POST" action="">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteModalBody">Are you sure you want to delete this product?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -135,4 +155,20 @@
         transform: scale(1.05);
     }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var deleteModal = document.getElementById('deleteModal');
+    if (!deleteModal) return;
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var action = button.getAttribute('data-action');
+        var name = button.getAttribute('data-name');
+        var form = document.getElementById('deleteForm');
+        if (form) form.action = action;
+        var body = document.getElementById('deleteModalBody');
+        if (body) body.textContent = 'Are you sure you want to delete "' + name + '"? This action cannot be undone.';
+    });
+});
+</script>
 @endpush

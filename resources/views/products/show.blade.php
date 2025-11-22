@@ -17,18 +17,16 @@
                 <h4 class="mb-0">Product Details</h4>
                 <div>
                     <a href="{{ route('products.edit', $product) }}" class="btn btn-warning btn-sm">
-                        Edit Product
+                        <i class="bi bi-pencil"></i> Edit Product
                     </a>
-                    <form action="{{ route('products.destroy', $product) }}" 
-                          method="POST" 
-                          class="d-inline"
-                          onsubmit="return confirm('Are you sure you want to delete this product?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            Delete Product
-                        </button>
-                    </form>
+                    <button type="button" 
+                            class="btn btn-danger btn-sm ms-2" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#deleteModalShow" 
+                            data-action="{{ route('products.destroy', $product) }}"
+                            data-name="{{ $product->name }}">
+                        <i class="bi bi-trash"></i> Delete Product
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -157,4 +155,45 @@
         </div>
     </div>
 </div>
+<!-- Delete Confirmation Modal for Show -->
+<div class="modal fade" id="deleteModalShow" tabindex="-1" aria-labelledby="deleteModalShowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="deleteFormShow" method="POST" action="">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalShowLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteModalShowBody">Are you sure you want to delete this product?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('deleteModalShow');
+        if (!modal) return;
+        modal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var action = button.getAttribute('data-action');
+                var name = button.getAttribute('data-name');
+                var form = document.getElementById('deleteFormShow');
+                if (form) form.action = action;
+                var body = document.getElementById('deleteModalShowBody');
+                if (body) body.textContent = 'Are you sure you want to delete "' + name + '"? This action cannot be undone.';
+        });
+});
+</script>
+@endpush
+
 @endsection
