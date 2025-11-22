@@ -21,10 +21,11 @@
                                id="name" 
                                name="name" 
                                value="{{ old('name') }}"
-                               placeholder="Enter product name"
-                               required>
+                               placeholder="Enter product name">
                         @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">
+                                <strong>{{ $message }}</strong>
+                            </div>
                         @enderror
                     </div>
 
@@ -40,12 +41,13 @@
                                    value="{{ old('price') }}"
                                    step="0.01" 
                                    min="0"
-                                   placeholder="0.00"
-                                   required>
-                            @error('price')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                                   placeholder="0.00">
                         </div>
+                        @error('price')
+                            <div class="invalid-feedback d-block">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
 
                     <!-- Description -->
